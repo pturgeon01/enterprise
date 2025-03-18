@@ -137,18 +137,20 @@ class BasePulsar(object):
 
     def filter_data(self, mask=None, start_time=None, end_time=None):
         """
-        Filters the dataset to create a time-slice based on a custom mask or time range.
+        Filters the dataset to create a time-slice based on a custom mask and/or a time range.
 
         Parameters:
             mask (array-like, optional): Boolean array specifying which data to keep.
-                                         If None, `start_time` and `end_time` are used. Default is None.
-            start_time (float, optional): Start time (MJD) for filtering. Ignored if `mask` is provided. Default None.
-            end_time (float, optional): End time (MJD) for filtering. Ignored if `mask` is provided. Default None.
+                                         If provided, this mask will be combined (logical AND)
+                                         with the time range filter. Default is None.
+            start_time (float, optional): Start time (MJD) for filtering. If None, the minimum time in the dataset is used.
+            end_time (float, optional): End time (MJD) for filtering. If None, the maximum time in the dataset is used.
         """
 
         start_time = start_time * 86400 if start_time is not None else np.min(self._toas)
         end_time = end_time * 86400 if end_time is not None else np.max(self._toas)
-        mask = mask if mask is not None else np.logical_and(self._toas >= start_time, self._toas <= end_time)
+        mask_times = np.logical_and(self._toas >= start_time, self._toas <= end_time)
+        mask = np.logical_and(mask, mask_times) if mask is not None else mask_times
 
         self._toas = self._toas[mask]
         self._toaerrs = self._toaerrs[mask]
