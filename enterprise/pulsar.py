@@ -143,8 +143,8 @@ class BasePulsar(object):
             mask (array-like, optional): Boolean array specifying which data to keep.
                                          If provided, this mask will be combined (logical AND)
                                          with the time range filter. Default is None.
-            start_time (float, optional): Start time (MJD) for filtering. If None, the minimum time in the dataset is used.
-            end_time (float, optional): End time (MJD) for filtering. If None, the maximum time in the dataset is used.
+            start_time (float, optional): Start time (MJD) for filtering. If None, the min time in the dataset is used.
+            end_time (float, optional): End time (MJD) for filtering. If None, the max time in the dataset is used.
         """
 
         start_time = start_time * 86400 if start_time is not None else np.min(self._toas)
