@@ -754,9 +754,9 @@ class FeatherPulsar:
         pydict.update({f"flags_{flag}": self.flags[flag] for flag in self.flags})
 
         meta = {}
-        for attr in Pulsar.metadata:
+        for attr in FeatherPulsar.metadata:
             if hasattr(self, attr):
-                meta[attr] = Pulsar.to_list(getattr(self, attr))
+                meta[attr] = FeatherPulsar.to_list(getattr(self, attr))
             else:
                 print(f"Pulsar.save_feather: cannot find {attr} in Pulsar {self.name}.")
 
