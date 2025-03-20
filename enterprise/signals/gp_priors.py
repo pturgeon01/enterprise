@@ -1,6 +1,6 @@
 # gp_priors.py
 """Utilities module containing various useful
-functions for use in other modules.
+functions for use in other modules. Adapted for my Master's project.
 """
 
 import numpy as np
