@@ -18,7 +18,7 @@ def f_rh(log10_T_rh=None):
 def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 #Need to include Mikko table data to determine DOF dependence
     return(
-        const.Om_Mat**2 * 9 / (2 * np.pi * f * const.f_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
+        const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
     )
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
@@ -38,7 +38,7 @@ def custom_powerlaw(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None
 @function
 def BBN_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    if it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0]*np.repeat(df,components) > 5.6*10**(-6)*const.DelN*np.repeat(df,components):
+    if const.h**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0]*np.repeat(df,components) > 5.6*10**(-6)*const.DelN*np.repeat(df,components):
         #1 is much larger than the standard output
         p = np.ones(len(df))
     else:
@@ -53,7 +53,7 @@ def BBN_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, comp
 @function
 def LVK_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    if Power_Spectrum(const.f_LVK, log10_r=log10_r, n_t= n_t) * Transfer_function(const.f_LVK, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 > const.OM_BBN:
+    if Power_Spectrum(const.f_LVK, log10_r=log10_r, n_t= n_t) * Transfer_function(const.f_LVK, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 > const.OM_LVK:
         #1 is much larger than the standard output
         p = np.ones(len(df))
     else:
