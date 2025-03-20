@@ -19,7 +19,7 @@ def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 #Need to include Mikko table data to determine DOF dependence
     return(
         const.Om_Mat**2 * 9 / (2 * np.pi * f * const.f_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
-
+    )
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
     return(
