@@ -10,7 +10,7 @@ import scipy.constants as sc
 h = 0.67 #1801.04268
 Om_Mat = 0.344 #2303.10095
 Om_Rad = 2.47 * 10**(-5) / h**2
-
+H_0 = 68.4 #In kms-1Mpc-1 2412.13045
 # mathematical constants from numpy
 # the log constants are useful for converting between log base 10 and e
 pi = np.pi
@@ -55,9 +55,9 @@ e_ecl = 23.43704 * np.pi / 180.0
 M_ecl = np.array([[1.0, 0.0, 0.0], [0.0, np.cos(e_ecl), -np.sin(e_ecl)], [0.0, np.sin(e_ecl), np.cos(e_ecl)]])
 
 # Other used parameters
-f_pl = 1.854 * 10**(43) 
-f_BBN = 1.5 * 10 **(-12) #1801.04268
-H_0 = 68.4 #In kms-1Mpc-1 2412.13045
+f_pl = 1.854 * 10**(43) #In Hz
+f_BBN = 1.5 * 10 **(-12) #1801.04268 in Hz
+f_eq = 1.3*10**(-2)*c/Mpc #1801.04268 in Hz
 f_LVK = 25 # In Hz
 Om_LVK = 3.4 * 10**(-9)
 del_N = 0.4 #2210.14159
