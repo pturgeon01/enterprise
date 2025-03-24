@@ -21,11 +21,15 @@ def Tf(f,log10_T_rh=None):
         const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**log10_T_rh * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
+@function
+def fT(T,Trhl):
+    """Returns frequency (Hz) as a function of temperature (eV)"""
+    return 2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**log10_T_rh - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
 
 @function
 def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
     return(
-       (DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
+       (DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(log10_T_rh=log10_T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
     )
 
 
