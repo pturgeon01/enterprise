@@ -14,7 +14,7 @@ gs_eff = np.array(gs_eff)
 T = np.array(T)
 
 @function
-def return_DOF(input_value, T, geeff):
+def return_DOF(input_value, geeff):
     # Convert T to a NumPy array (if not already)
     T = np.array(T) #in eV
     geeff = np.array(geeff)
