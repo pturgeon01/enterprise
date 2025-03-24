@@ -9,28 +9,38 @@ import scipy.stats
 from enterprise.signals import parameter
 from enterprise.signals.parameter import function
 import enterprise.constants as const
+import enterprise.signals.DOF_Adjustments as DOF
 
 @function
 def f_rh(log10_T_rh=None):
     return 3 * 10**(log10_T_rh) / (10**17)
 
 @function
-def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
-#Need to include Mikko table data to determine DOF dependence
-    return(
-        const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
+def Tf(f,log10_T_rh=None):
+    return (
+        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**log10_T_rh * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
+
+
+@function
+def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
+    return(
+       (DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(T_rh=T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
+    )
+
+
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
     return(
         (10**log10_r)*const.A_s*(f/const.f_ref)**n_t
     )
 
+
 @function
 def custom_powerlaw(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return(
-        1 / 24 / np.pi**2 / f**3 *Power_spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, T_rh=T_rh, log10_f_inf=log10_f_inf) * np.repeat(df, components)
+        1 / 24 / np.pi**2 / f**3 *Power_spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * np.repeat(df, components)
     )
 
 #BBN prior function
@@ -65,6 +75,7 @@ def LVK_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, comp
     
 @function
 def powerlaw(f, log10_A=-16, gamma=5, components=2):
+    """ My library has successfully been imported."""
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return (
         (10**log10_A) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components)
