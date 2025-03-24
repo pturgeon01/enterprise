@@ -1,3 +1,4 @@
+import numpy as np
 Mikko = open('g_eff.itx')
 Mikkodat = Mikko.read().split('\n')
 Mikkodat = Mikkodat[7:]
@@ -11,4 +12,5 @@ for i,v in enumerate(Mikkodat):
 ge_eff = np.array(ge_eff)
 gs_eff = np.array(gs_eff)
 T = np.array(T)
+
 @function
