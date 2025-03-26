@@ -18,13 +18,13 @@ def f_rh(log10_T_rh=None):
 @function
 def Tf(f,log10_T_rh=None):
     return (
-        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**log10_T_rh * np.heaviside(f - f_rh(log10_T_rh),1) 
+        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(float(log10_T_rh)) * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
 @function
 def fT(T=None,log10_T_rh=None):
     """Returns frequency (Hz) as a function of temperature (eV)"""
-    return 2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**log10_T_rh - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
+    return 2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**(float(log10_T_rh)) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
 
 @function
 def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
@@ -36,7 +36,7 @@ def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
     return(
-        (10**log10_r)*const.A_s*(f/const.f_ref)**n_t
+        (10**(float(log10_r)))*const.A_s*(f/const.f_ref)**n_t
     )
 
 
@@ -82,14 +82,14 @@ def powerlaw(f, log10_A=-16, gamma=5, components=2):
     """ My library has successfully been imported."""
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return (
-        (10**log10_A) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components)
+        (10**(float(log10_A)) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components)
     )
 
 
 @function
 def turnover(f, log10_A=-15, gamma=4.33, lf0=-8.5, kappa=10 / 3, beta=0.5):
     df = np.diff(np.concatenate((np.array([0]), f[::2])))
-    hcf = 10**log10_A * (f / const.fyr) ** ((3 - gamma) / 2) / (1 + (10**lf0 / f) ** kappa) ** beta
+    hcf = 10**(float(log10_A)) * (f / const.fyr) ** ((3 - gamma) / 2) / (1 + (10**lf0 / f) ** kappa) ** beta
     return hcf**2 / 12 / np.pi**2 / f**3 * np.repeat(df, 2)
 
 
