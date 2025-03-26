@@ -1,5 +1,9 @@
 from enterprise.signals.parameter import function
 import numpy as np
+import urllib.request
+url = "https://raw.githubusercontent.com/pturgeon01/enterprise/master/enterprise/signals/g_eff.itx"
+urllib.request.urlretrieve(url, "g_eff.itx")
+
 Mikko = open('enterprise/signals/g_eff.itx')
 Mikkodat = Mikko.read().split('\n')
 Mikkodat = Mikkodat[7:]
