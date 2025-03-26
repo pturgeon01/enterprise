@@ -82,9 +82,9 @@ def powerlaw(f, log10_A=-16, gamma=5, components=2):
     """ My library has successfully been imported."""
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return (
-        (10**(float(log10_A)) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components)
+        (10**(float(log10_A)) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components))
     )
-
+    
 
 @function
 def turnover(f, log10_A=-15, gamma=4.33, lf0=-8.5, kappa=10 / 3, beta=0.5):
