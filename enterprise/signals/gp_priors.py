@@ -23,8 +23,10 @@ def Tf(f,log10_T_rh=None):
 
 @function
 def fT(T,log10_T_rh=None):
-    """Returns frequency (Hz) as a function of temperature (eV)"""
-    return 2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
+    return (
+        2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
+    )
+
 
 @function
 def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
@@ -72,6 +74,18 @@ def LVK_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, comp
         p = np.ones(len(df))
     else:
         #0 does not change the standard output
+        p = 0*df
+    return(
+        np.repeat(p,components)
+    )
+#Prior on f_inf (lower bound at T = 5 MeV)
+
+@function
+def f_inf_prior(T, log10_T_rh=None, components=2):
+    df = np.diff(np.concatenate((np.array([0]),f[::components])))
+    if fT(T, log10_T_rh=log10_T_rh) < fT(5*10**(6), log10_T_rh=log10_T_rh):
+        p = np.ones(len(df))
+    else:
         p = 0*df
     return(
         np.repeat(p,components)
