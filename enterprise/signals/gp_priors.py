@@ -55,7 +55,7 @@ def custom_powerlaw(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None
 @function
 def BBN_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    if const.h**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0]*np.repeat(df,components) > 5.6*10**(-6)*const.DelN*np.repeat(df,components):
+    if const.hc**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0]*np.repeat(df,components) > 5.6*10**(-6)*const.DelN*np.repeat(df,components):
         #1 is much larger than the standard output
         p = np.ones(len(df))
     else:
