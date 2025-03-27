@@ -19,7 +19,7 @@ def f_rh(log10_T_rh=None):
 @function
 def Tf(f,log10_T_rh=None):
     return (
-        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(float(log10_T_rh)) * np.heaviside(f - f_rh(log10_T_rh),1) 
+        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
 @function
@@ -39,7 +39,7 @@ def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
     return(
-        (10**(float(log10_r)))*const.A_s*(f/const.f_ref)**n_t
+        (10**(log10_r))*const.A_s*(f/const.f_ref)**n_t
     )
 
 
