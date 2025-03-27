@@ -5,6 +5,7 @@ functions for use in other modules. Adapted for my Master's project.
 
 import numpy as np
 import scipy.stats
+import scipy.integrate as it
 
 from enterprise.signals import parameter
 from enterprise.signals.parameter import function
