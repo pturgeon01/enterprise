@@ -100,6 +100,8 @@ def f_inf_prior(T, log10_T_rh=None, components=2):
 @function
 def powerlaw(f, log10_A=-16, gamma=5, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
+    print(np.shape(gamma))
+    print(np.shape(f))
     return (
         (10**(float(log10_A)) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components))
     )
