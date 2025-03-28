@@ -38,6 +38,8 @@ def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 
 @function
 def Power_Spectrum(f, log10_r=None, n_t=None):
+    print(np.shape(log10_r))
+    print(np.shape(n_t))
     return(
         (10**(log10_r))*const.A_s*(f/const.f_ref)**n_t
     )
