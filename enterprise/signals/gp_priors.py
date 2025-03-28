@@ -37,10 +37,12 @@ def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
 
 
 @function
-def Power_Spectrum(f, log10_r=None, n_t=None):
+def Power_Spectrum(f, log10_r=None, n_t=None, components=2):
     print(np.shape(log10_r))
     print(np.shape(n_t))
     print(np.shape(f))
+    df = np.diff(np.concatenate((np.array([0]), f[::components])))
+    print(np.shape(n_t*np.repeat(df, components)))
     return(
         (10**(log10_r))*const.A_s*(f/const.f_ref)**n_t
     )
@@ -97,7 +99,6 @@ def f_inf_prior(T, log10_T_rh=None, components=2):
     
 @function
 def powerlaw(f, log10_A=-16, gamma=5, components=2):
-    """ My library has successfully been imported."""
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return (
         (10**(float(log10_A)) ** 2 / 12.0 / np.pi**2 * const.fyr ** (gamma - 3) * f ** (-gamma) * np.repeat(df, components))
