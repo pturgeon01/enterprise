@@ -13,31 +13,31 @@ import enterprise.constants as const
 import enterprise.signals.DOF_Adjustments as DOF
 
 @function
-def f_rh(log10_T_rh=None):
+def f_rh(log10_T_rh=9):
     return 3 * 10**(log10_T_rh) / (10**17)
 
 @function
-def Tf(f,log10_T_rh=None):
+def Tf(f,log10_T_rh=9):
     return (
         const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
 @function
-def fT(T,log10_T_rh=None):
+def fT(T,log10_T_rh=9):
     return (
         2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
     )
 
 
 @function
-def Transfer_function(f, log10_T_rh=None, log10_f_inf=None):
+def Transfer_function(f, log10_T_rh=9, log10_f_inf=10):
     return(
        (DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 9 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(log10_T_rh=log10_T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
     )
 
 
 @function
-def Power_Spectrum(f, log10_r=None, n_t=None, components=2):
+def Power_Spectrum(f, log10_r=-1.6, n_t=6, components=2):
     print(np.shape(log10_r))
     print(np.shape(n_t))
     print(np.shape(f))
@@ -49,7 +49,7 @@ def Power_Spectrum(f, log10_r=None, n_t=None, components=2):
 
 
 @function
-def custom_powerlaw(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
+def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return(
         1 / 24 / np.pi**2 / f**3 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * np.repeat(df, components)
@@ -58,7 +58,7 @@ def custom_powerlaw(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None
 #BBN prior function
 
 @function
-def BBN_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
+def BBN_prior(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
     if const.hc**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0]*np.repeat(df,components) > 5.6*10**(-6)*const.DelN*np.repeat(df,components):
         #1 is much larger than the standard output
@@ -73,7 +73,7 @@ def BBN_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, comp
 #LVK prior function
 
 @function
-def LVK_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, components=2):
+def LVK_prior(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
     if Power_Spectrum(const.f_LVK, log10_r=log10_r, n_t= n_t) * Transfer_function(const.f_LVK, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 > const.OM_LVK:
         #1 is much larger than the standard output
@@ -87,7 +87,7 @@ def LVK_prior(f, log10_r=None, n_t=None, log10_T_rh=None, log10_f_inf=None, comp
 #Prior on f_inf (lower bound at T = 5 MeV)
 
 @function
-def f_inf_prior(T, log10_T_rh=None, components=2):
+def f_inf_prior(T, log10_T_rh=9, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
     if fT(T, log10_T_rh=log10_T_rh) < fT(5*10**(6), log10_T_rh=log10_T_rh):
         p = np.ones(len(df))
