@@ -82,9 +82,9 @@ def LVK_prior(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2
 #Prior on f_inf (lower bound at T = 5 MeV)
 
 @function
-def f_inf_prior(f, T, log10_T_rh=9, components=2):
+def f_inf_prior(f, log10_T_rh=9, log10_f_inf=10, components=2):
     df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    if fT(T, log10_T_rh=log10_T_rh) < fT(5*10**(6), log10_T_rh=log10_T_rh):
+    if 10**(log10_f_inf) < fT(5*10**(6), log10_T_rh=log10_T_rh):
         p = np.ones(len(df))
     else:
         p = 0*df
