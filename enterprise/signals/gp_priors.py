@@ -48,13 +48,13 @@ def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, compon
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     #BBN prior
     if const.hc**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0] > 5.6*10**(-6)*const.DelN:
-        p = 1
+        p = np.inf
     #LVK_prior
     elif Power_Spectrum(const.f_LVK, log10_r=log10_r, n_t= n_t) * Transfer_function(const.f_LVK, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*const.f_LVK)**2 / (const.H_0*1000)**2 > const.Om_LVK:
-        p = 1
+        p = np.inf
     #f_inf_prior
     elif 10**(log10_f_inf) < fT(5*10**(6), log10_T_rh=log10_T_rh):
-        p = 1
+        p = np.inf
     else:
         p = 1 / 24 / np.pi**2 / f**3 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
     return(
