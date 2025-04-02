@@ -7,7 +7,7 @@ scipy.constants for physical constants.
 import numpy as np
 import scipy.constants as sc
 # Cosmological parameters used
-hc = 0.67 #1801.04268
+hc = 0.684 2412.13045
 Om_Mat = 0.344 #2303.10095
 Om_Rad = 2.47 * 10**(-5) / hc**2 #1801.04268
 H_0 = 68.4 #In kms-1Mpc-1 2412.13045
