@@ -46,7 +46,7 @@ def Power_Spectrum(f, log10_r=-1.6, n_t=6, components=2):
 @function
 def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf = const.f_pl, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
-        p = const.Mpc**2 / 96 / np.pi**4 / f**3 / (const.H_0*1000)**2 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
+    p = const.Mpc**2 / 96 / np.pi**4 / f**3 / (const.H_0*1000)**2 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
     return(
         p * np.repeat(df, components)
     )
