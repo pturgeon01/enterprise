@@ -37,7 +37,7 @@ def Transfer_function(f, log10_T_rh=9, log10_f_inf=10):
 
 
 @function
-def Power_Spectrum(f, log10_r=-1.6, n_t=6, components=2):
+def Power_Spectrum(f, log10_r=-1.6, n_t=6):
     return(
         10**(float(log10_r))*const.A_s*(f/const.f_ref)**n_t
     )
@@ -46,54 +46,25 @@ def Power_Spectrum(f, log10_r=-1.6, n_t=6, components=2):
 @function
 def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf = const.f_pl, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
-    #p = const.Mpc**2 / 96 / np.pi**4 / f**3 / (const.H_0*1000)**2 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
     p = 1 / 96 / np.pi**4 / f**3 *Power_Spectrum(f, log10_r=log10_r, n_t=n_t)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
     return(
         p * np.repeat(df, components)
     )
 
-#BBN prior function
+@function
+def Lasky_Transfer_function(f):
+    return(
+        1/2*(const.f_eq/f)**2 + 16/9
+    )
 
-#@function
-#def BBN_prior(f,log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2):
-    #df = np.diff(np.concatenate((np.array([0]), f[::components])))
-    #if const.hc**2 * it.quad(lambda x: Power_Spectrum(x, log10_r=log10_r, n_t= n_t) * Transfer_function(x, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*x)**2 / (const.H_0*1000)**2 /x, const.f_BBN, 10**(log10_f_inf))[0] > 5.6*10**(-6)*const.DelN:
-        #1 is much larger than the standard output
-        #p = np.ones(len(df))
-    #else:
-        #0 does not change the standard output
-        #p = 0*df
-    #return(
-        #np.repeat(p,components)
-    #)
+@function
+def Lasky_powerlaw(f, log10_r=-1.6, n_t=2.3, components=2):
+    df = np.diff(np.concatenate((np.array([0]), f[::components])))
+    p = 3/ 1024 * const.Om_Rad / (np.pi**4) * (const.H_0*1000)**2 / const.Mpc**2 * Power_Spectrum(f, log10_r=log10_r,n_t=n_t)*Lasky_Transfer_function(f)
+    return(
+        p * np.repeat(df, components)
+    )
 
-#LVK prior function
-
-#@function
-#def LVK_prior(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf=10, components=2):
-    #df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    #if Power_Spectrum(const.f_LVK, log10_r=log10_r, n_t= n_t) * Transfer_function(const.f_LVK, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) * 1 / 12 *(2*np.pi*const.f_LVK)**2 / (const.H_0*1000)**2 > const.Om_LVK:
-        #1 is much larger than the standard output
-        #p = np.ones(len(df))
-    #else:
-        #0 does not change the standard output
-        #p = 0*df
-    #return(
-        #np.repeat(p,components)
-    #)
-#Prior on f_inf (lower bound at T = 5 MeV)
-
-#@function
-#def f_inf_prior(f, log10_T_rh=9, log10_f_inf=10, components=2):
-    #df = np.diff(np.concatenate((np.array([0]),f[::components])))
-    #if 10**(log10_f_inf) < fT(5*10**(6), log10_T_rh=log10_T_rh):
-        #p = np.ones(len(df))
-    #else:
-        #p = 0*df
-    #return(
-        #np.repeat(p,components)
-    #)
-    
 @function
 def powerlaw(f, log10_A=-16, gamma=5, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
