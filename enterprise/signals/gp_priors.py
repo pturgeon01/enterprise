@@ -60,7 +60,7 @@ def Lasky_Transfer_function(f):
 @function
 def Lasky_powerlaw(f, log10_r=-1.6, n_t=2.3, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
-    p = 3/ 1024 * const.Om_Rad / (np.pi**4) * (const.H_0*1000)**2 / const.Mpc**2 * Power_Spectrum(f, log10_r=log10_r,n_t=n_t)*Lasky_Transfer_function(f)
+    p = 3/ 1024 * const.Om_Rad / (np.pi**4) * (const.H_0*1000)**2 / const.Mpc**2 * Power_Spectrum(f, log10_r=log10_r,n_t=n_t)*Lasky_Transfer_function(f) / f**5
     return(
         p * np.repeat(df, components)
     )
