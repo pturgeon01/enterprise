@@ -55,7 +55,7 @@ def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf = const.f_
 @function
 def custom_runninglaw(f, log10_r=-1.6, n_t=1, a_t=1, log10_T_rh=9, log10_f_inf = const.f_pl, components=2):
     df = np.diff(np.concatenate((np.array([0]), f[::components])))
-    p = 1 / 96 / np.pi**4 / f**3 *np.exp**(np.log(Power_Spectrum(f, log10_r=log10_r, n_t=n_t)) + a_t*np.log(f/const.f_ref)**2)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
+    p = 1 / 96 / np.pi**4 / f**3 *np.exp(np.log(Power_Spectrum(f, log10_r=log10_r, n_t=n_t)) + a_t*np.log(f/const.f_ref)**2)*Transfer_function(f, log10_T_rh=log10_T_rh, log10_f_inf=log10_f_inf) 
     return(
         p * np.repeat(df, components)
     )
