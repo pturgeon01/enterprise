@@ -66,6 +66,6 @@ f_ref = c / (2*np.pi) * 0.05/Mpc
 z_eq = 3402 #Baumann
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
-Om_LVK = 3.4 * 10**(-9) #2101.12130
+Om_LVK = 5.8 * 10**(-9) #2101.12130
 del_N = 0.4 #2210.14159
 eta_0 = 2 / (H_0*1000*(np.sqrt(Om_Rad) + np.sqrt(Om_Rad + Om_Mat))) * Mpc #In sec
