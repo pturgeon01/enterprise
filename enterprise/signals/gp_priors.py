@@ -19,13 +19,13 @@ def f_rh(log10_T_rh=9):
 @function
 def Tf(f,log10_T_rh=9):
     return (
-        const.T_0*f**2*const.eta_0**2/4*np.heaviside(f - 2/const.eta_0,1)*np.heaviside(const.f_eq - f,1) + 1/const.f_eq*const.T_eq*f*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh),1) 
+        const.T_0/2*(np.sqrt((const.Om_Mat/const.Om_Rad)**2 + 4(f/const.f_0)**2) - (const.Om_Mat/const.Om_Rad))np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
 @function
 def fT(T,log10_T_rh=9):
     return (
-        2*np.sqrt(T/const.T_0)/const.eta_0*np.heaviside(T-const.T_0,1)*np.heaviside(const.T_eq - T,1) + T/(1/const.f_eq * const.T_eq)*np.heaviside(T - const.T_eq,1)*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
+        const.f_0*np.sqrt((const.Om_Mat*(T/const.T_0) + const.Om_Rad*(T/const.T_0)**2)/(const.Om_Mat + const.Om_Rad))*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
     )
 
 
