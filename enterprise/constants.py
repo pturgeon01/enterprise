@@ -60,12 +60,12 @@ M_ecl = np.array([[1.0, 0.0, 0.0], [0.0, np.cos(e_ecl), -np.sin(e_ecl)], [0.0, n
 # Other used parameters
 f_pl = 1.854 * 10**(43) #In Hz
 f_CMB = 7 * 10**(-18) #1801.04268 in Hz
-f_BBN = 1.5 * 10 **(-12) #1801.04268 in Hz
-f_eq = np.sqrt(2)*H_0*10**3/MPc * Om_Mat/np.sqrt(Om_Rad) / (2*np.pi)  #Derived
+T_BBN = 1.5 * 10 **(-12) #1801.04268 in Hz
+f_eq = np.sqrt(2)*H_0*10**3/Mpc * Om_Mat/np.sqrt(Om_Rad) / (2*np.pi)  #Derived
 f_ref = c / (2*np.pi) * 0.05/Mpc
 z_eq = 3402 #Baumann
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
 Om_LVK = 5.8 * 10**(-9) #2101.12130 flat GWB
 del_N = 0.4 #2210.14159
-eta_0 = 2 / (H_0*1000*(np.sqrt(Om_Rad) + np.sqrt(Om_Rad + Om_Mat))) * Mpc #In sec
+f_0 = H_0*1000/(2*np.pi*Mpc) #In sec
