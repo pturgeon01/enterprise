@@ -4,13 +4,13 @@ import urllib.request
 url = "https://raw.githubusercontent.com/pturgeon01/enterprise/master/enterprise/signals/g_eff.itx"
 urllib.request.urlretrieve(url, "g_eff.itx")
 
-Mikko = open('g_eff.itx')
-Mikkodat = Mikko.read().split('\n')
-Mikkodat = Mikkodat[7:]
+File = open('g_eff.itx')
+Filedat = File.read().split('\n')
+Filedat = Filedat[7:]
 ge_eff = []
 gs_eff = []
 T = []
-for i,v in enumerate(Mikkodat):
+for i,v in enumerate(Filedat):
     T.append(float(v.split()[0])*10**6) #in eV
     ge_eff.append(float(v.split()[7]))
     gs_eff.append(float(v.split()[8]))
