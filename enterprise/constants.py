@@ -14,6 +14,7 @@ H_0 = 68.4 #In kms-1Mpc-1 2412.13045
 T_0 = 2.35* 10**(-4) #In eV 
 A_s = (np.e**(3.053))/(10**10) #Planck data PL21+BK18+LV21 2208
 DelN = 0.4 #
+h_bar = 6.582*10**(-16) #in eVs
 # mathematical constants from numpy
 # the log constants are useful for converting between log base 10 and e
 pi = np.pi
