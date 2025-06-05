@@ -19,20 +19,20 @@ def f_rh(log10_T_rh=9):
 @function
 def Tf(f,log10_T_rh=9):
     return (
-        const.T_0/2*(np.sqrt((const.Om_Mat/const.Om_Rad)**2 + 4(f/const.f_0)**2*(const.Om_Mat + const.Om_Rad)/const.Om_Rad) - (const.Om_Mat/const.Om_Rad))*np.heaviside(f_rh(log10_T_rh=log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh=log10_T_rh),1) 
+        const.T_0/2*(np.sqrt((const.Om_Mat/const.Om_Rad)**2 + 4(f/const.f_0)**2*(const.Om_Mat + const.Om_Rad)/const.Om_Rad) - (const.Om_Mat/const.Om_Rad))*np.heaviside(f_rh(log10_T_rh) - f,1) + (f/f_rh(log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh),1) 
     )
 
 @function
 def fT(T,log10_T_rh=9):
     return (
-        const.f_0*np.sqrt((const.Om_Mat*(T/const.T_0) + const.Om_Rad*(T/const.T_0)**2)/(const.Om_Mat + const.Om_Rad))*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh=log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
+        const.f_0*np.sqrt((const.Om_Mat*(T/const.T_0) + const.Om_Rad*(T/const.T_0)**2)/(const.Om_Mat + const.Om_Rad))*np.heaviside(10**(log10_T_rh) - T,1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh)*np.heaviside(T - 10**(log10_T_rh),1)
     )
 
 
 @function
 def Transfer_function(f, log10_T_rh=9, log10_f_inf=10):
     return(
-       (9 / 2 * DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 1 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22*(f/f_rh(log10_T_rh=log10_T_rh))**1.5 + 0.65*(f/f_rh(log10_T_rh=log10_T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
+       (9 / 2 * DOF.return_DOFge(Tf(f,log10_T_rh))/DOF.return_DOFge(0))*(DOF.return_DOFgs(0)/DOF.return_DOFgs(Tf(f,log10_T_rh)))**(4/3) * const.Om_Mat**2 * 1 / (2 * np.pi * f * const.eta_0)**4 * (1 + 1.57*(f/const.f_eq) + 3.42*(f/const.f_eq)**2) * 1 / (1 - 0.22*(f/f_rh(log10_T_rh))**1.5 + 0.65*(f/f_rh(log10_T_rh))**2) * np.heaviside(10**(log10_f_inf) - f,1) 
     )
 
 
