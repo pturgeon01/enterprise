@@ -68,5 +68,5 @@ z_eq = 3402 #Baumann
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
 Om_LVK = 5.8 * 10**(-9) #2101.12130 flat GWB
-del_N = 0.4 #2210.14159
+del_N = 0.2 #1801.04268
 f_0 = H_0*1000/(2*np.pi*Mpc) #In sec
