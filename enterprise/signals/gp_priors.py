@@ -14,7 +14,7 @@ import enterprise.signals.DOF_Adjustments as DOF
 
 @function
 def f_rh(log10_T_rh=9):
-    return 1/(2*np.pi)*10**(log10_T_rh)*const.T_0/const.M_PL/const.h_bar*(DOF.return_DOFgs(0)[0]/DOF.return_DOFgs(10**(log10_T_rh))[0])**(1/3)*(DOF.return_DOF(10**(log10_T_rh))[0]*np.pi**2 / 90)**(1/2)
+    return 1/(2*np.pi)*10**(log10_T_rh)*const.T_0/const.M_PL/const.h_bar*(DOF.return_DOFgs(0)[0]/DOF.return_DOFgs(10**(log10_T_rh))[0])**(1/3)*(DOF.return_DOFge(10**(log10_T_rh))[0]*np.pi**2 / 90)**(1/2)
 
 @function
 def Tf(f,log10_T_rh=9):
