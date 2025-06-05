@@ -11,9 +11,10 @@ ge_eff = []
 gs_eff = []
 T = []
 for i,v in enumerate(Filedat):
-    T.append(float(v.split()[0])*10**6) #in eV
-    ge_eff.append(float(v.split()[7]))
-    gs_eff.append(float(v.split()[8]))
+    d = v.split()
+    T.append(float(d[0])*10**6) #in eV
+    ge_eff.append(float(d[7]))
+    gs_eff.append(float(d[8]))
 T = np.array(T)
 ge_eff = np.array(ge_eff)
 gs_eff = np.array(gs_eff)
