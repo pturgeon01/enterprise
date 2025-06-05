@@ -60,10 +60,9 @@ M_ecl = np.array([[1.0, 0.0, 0.0], [0.0, np.cos(e_ecl), -np.sin(e_ecl)], [0.0, n
 
 # Other used parameters
 f_pl = 1.854 * 10**(43) #In Hz
-f_CMB = 7 * 10**(-18) #1801.04268 in Hz
 T_BBN = 10**(5) #In eV 1801.04268
 f_eq = np.sqrt(2)*H_0*10**3/Mpc * Om_Mat/np.sqrt(Om_Rad) / (2*np.pi)  #Derived
-f_ref = c / (2*np.pi) * 0.05/Mpc
+f_ref = c / (2*np.pi) * 0.05/Mpc #1511.05994
 z_eq = 3402 #Baumann
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
