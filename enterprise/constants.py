@@ -7,14 +7,13 @@ scipy.constants for physical constants.
 import numpy as np
 import scipy.constants as sc
 # Cosmological parameters used
-hc = 0.684 #2412.13045
-Om_Mat = 0.344 #2303.10095
-Om_Rad = 2.47 * 10**(-5) / hc**2 #1801.04268
-H_0 = 68.4 #In kms-1Mpc-1 2412.13045
+hc = 0.6736 #1807.06209 TT,TE,EE+lowE+lensing
+Om_Mat = 0.3153 #1807.06209
+Om_Rad = 2.47 * 10**(-5) / hc**2 #1801.04268 Look further 
+H_0 = 67.36 #In kms-1Mpc-1 1807.06209
 T_0 = 2.35* 10**(-4) #In eV 
-A_s = (np.e**(3.053))/(10**10) #Planck data PL21+BK18+LV21 2208
-DelN = 0.2 #
-M_PL = 1.2*10**(28) 
+A_s = 2.1/(10**9) #1801.04268
+M_PL = 1.2*10**(28) #in eV
 h_bar = 6.582*10**(-16) #in eVs
 # mathematical constants from numpy
 # the log constants are useful for converting between log base 10 and e
@@ -62,12 +61,12 @@ M_ecl = np.array([[1.0, 0.0, 0.0], [0.0, np.cos(e_ecl), -np.sin(e_ecl)], [0.0, n
 # Other used parameters
 f_pl = 1.854 * 10**(43) #In Hz
 T_BBN = 10**(5) #In eV 1801.04268
-f_eq = np.sqrt(2)*H_0*10**3/Mpc * Om_Mat/np.sqrt(Om_Rad) / (2*np.pi)  #Derived
+f_eq = np.sqrt(2)*H_0*10**3/Mpc * Om_Mat/np.sqrt(Om_Rad) / (2*np.pi)  #Derived 
 f_ref = c / (2*np.pi) * 0.05/Mpc #1511.05994
-z_eq = 3402 #Baumann
+z_eq = 3402 #1801.04268
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
-Om_LVK = 5.8 * 10**(-9) #2101.12130 flat GWB
-del_N = 0.2 #1801.04268
-f_0 = H_0*1000/(2*np.pi*Mpc) #In Hz
-eta_0 = 2*(H_0*1000/Mpc)**(-1)*1/(np.sqrt(Om_Rad + Om_Mat) + np.sqrt(Om_Rad)) #In sec
+Om_LVK = 1.7 * 10**(-8) #2101.12130 flat GWB (prior)
+del_N = 0.2 #1801.04268 Compare to #1807.06209
+f_0 = H_0*1000/(2*np.pi*Mpc) #In Hz derived
+eta_0 = 2*(H_0*1000/Mpc)**(-1)*1/(np.sqrt(Om_Rad + Om_Mat) + np.sqrt(Om_Rad)) #In sec derived
