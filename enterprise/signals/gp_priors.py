@@ -17,15 +17,15 @@ def f_rh(log10_T_rh=9):
     return 1/(2*np.pi)*10**(log10_T_rh)*const.T_0/const.M_PL/const.h_bar*(DOF.return_DOFgs(0)[0]/DOF.return_DOFgs(10**(log10_T_rh))[0])**(1/3)*(DOF.return_DOFge(10**(log10_T_rh))[0]*np.pi**2 / 90)**(1/2)
 
 @function
-def Tf(f,log10_T_rh=9):
-    return (
-        const.T_0/2*(np.sqrt((const.Om_Mat/const.Om_Rad)**2 + 4*(f/const.f_0)**2*(const.Om_Mat + const.Om_Rad)/const.Om_Rad) - (const.Om_Mat/const.Om_Rad))*np.heaviside(f_rh(log10_T_rh=log10_T_rh) - f,1) + (f/f_rh(log10_T_rh=log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh=log10_T_rh),1) 
-    )
-
-@function
 def fT(T,log10_T_rh=9):
     return (
-        const.f_0*np.sqrt((const.Om_Mat*(T/const.T_0) + const.Om_Rad*(T/const.T_0)**2)/(const.Om_Mat + const.Om_Rad))*np.heaviside(log10_T_rh - np.log10(T),1) + np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh=log10_T_rh)*np.heaviside(np.log10(T) - log10_T_rh,1)
+        const.f_0*np.sqrt(const.Om_Mat*(T/const.T_0))*np.heaviside(const.T_eq - T,1) + 1/(2*np.pi)*(DOF.return_DOFgs(0)[0]/DOF.return_DOFgs(T)[0])**(1/3)*(np.pi*np.sqrt(DOF.return_DOFge(T))/np.sqrt(90))*const.T_0*T/(const.M_PL*const.h_bar)*np.heaviside(T - const.T_eq,1)*np.heaviside(log10_T_rh - np.log10(T),1) + (DOF.return_DOFgs(10**(log10_T_rh))[0]/DOF.return_DOFgs(T)[0])**(1/3)*np.sqrt(T/10**(log10_T_rh))*f_rh(log10_T_rh=log10_T_rh)*np.heaviside(np.log10(T) - log10_T_rh,1)
+    )
+    
+@function
+def Tf(f,log10_T_rh=9,Tg=10**8.1):
+    return (
+        (const.T_0/const.Om_Mat)*(f/const.f_0)**2*np.heaviside(const.f_eq - f,1) + (DOF.return_DOFgs(Tg)/DOF.return_DOFgs(0))**(1/3) * 2 * const.M_PL/const.T_0 * f * const.h_bar * (np.sqrt(90)/np.sqrt(DOF.return_DOFge(Tg)))*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (DOF.return_DOFgs(Tg)/DOF.return_DOFgs(10**(log10_T_rh)))**(1/3) * (f/f_rh(log10_T_rh=log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh=log10_T_rh),1)
     )
 
 
