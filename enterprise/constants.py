@@ -67,6 +67,6 @@ z_eq = 3402 #1807.06209
 T_eq = T_0*(1 + z_eq)
 f_LVK = 25 # In Hz
 Om_LVK = 1.7 * 10**(-8) #2101.12130 flat GWB (prior)
-del_N = 0.2 #1801.04268 Compare to #1807.06209
+del_N = 0.39 #2306.16219
 f_0 = H_0*1000/(2*np.pi*Mpc) #In Hz derived
 eta_0 = 2*(H_0*1000/Mpc)**(-1)*1/(np.sqrt(Om_Rad + Om_Mat) + np.sqrt(Om_Rad)) #In sec derived
