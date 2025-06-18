@@ -23,7 +23,7 @@ def fT(T,log10_T_rh=9):
     )
     
 @function
-def Tf(f,log10_T_rh=9,Tg=10**8.1):
+def Tf(f,log10_T_rh=9,Tg=10**8.5):
     return (
         (const.T_0/const.Om_Mat)*(f/const.f_0)**2*np.heaviside(const.f_eq - f,1) + (DOF.return_DOFgs(Tg)/DOF.return_DOFgs(0))**(1/3) * 2 * const.M_PL/const.T_0 * f * const.h_bar * (np.sqrt(90)/np.sqrt(DOF.return_DOFge(Tg)))*np.heaviside(f - const.f_eq,1)*np.heaviside(f_rh(log10_T_rh) - f,1) + (DOF.return_DOFgs(Tg)/DOF.return_DOFgs(10**(log10_T_rh)))**(1/3) * (f/f_rh(log10_T_rh=log10_T_rh))**2 * 10**(log10_T_rh) * np.heaviside(f - f_rh(log10_T_rh=log10_T_rh),1)
     )
