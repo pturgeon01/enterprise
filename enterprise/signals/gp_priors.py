@@ -54,8 +54,9 @@ def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf = const.f_
 @function
 def null_powerlaw(f, log10_r = -1.6, n_t = 6, log10_T_rh = 9, log10_f_inf = const.f_pl, components = 2):
     """Provides a null amplitude spectrum"""
+     df = np.diff(np.concatenate((np.array([0]), f[::components])))
     return(
-        0
+        0 * np.repeat(df, components)
     )
 
 
