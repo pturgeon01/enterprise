@@ -51,6 +51,13 @@ def custom_powerlaw(f, log10_r=-1.6, n_t=6, log10_T_rh=9, log10_f_inf = const.f_
         p * np.repeat(df, components)
     )
 
+@function
+def null_powerlaw(f, log10_r = -1.6, n_t = 6, log10_T_rh = 9, log10_f_inf = const.f_pl, components = 2):
+    """Provides a null amplitude spectrum"""
+    return(
+        0
+    )
+
 
 @function
 def custom_runninglaw(f, log10_r=-1.6, n_t=1, a_t=1, log10_T_rh=9, log10_f_inf = const.f_pl, components=2):
