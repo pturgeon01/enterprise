@@ -25,7 +25,7 @@ def return_DOFge(input_value):
     input_value = np.array(input_value, ndmin=1)
     closest_indices = np.zeros(len(input_value), dtype=int)
     for i,v in enumerate(input_value):
-        if np.abs(T[i] - v) < 1e40:
+        if np.abs(T[i] - v) < np.inf:
             closest_indices[i] = np.argmin(np.abs(T - v))
         else:
             closest_indices[i] = 1710 
@@ -37,7 +37,7 @@ def return_DOFgs(input_value):
     input_value = np.array(input_value, ndmin=1)
     closest_indices = np.zeros(len(input_value), dtype=int)
     for i,v in enumerate(input_value):
-        if np.abs(T[i] - v) < 1e40:
+        if np.abs(T[i] - v) < np.inf:
             closest_indices[i] = np.argmin(np.abs(T - v))
         else:
             closest_indices[i] = 1710 
