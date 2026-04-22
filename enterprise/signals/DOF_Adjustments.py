@@ -41,5 +41,5 @@ def return_DOFgs(input_value):
             closest_indices[i] = np.argmin(np.abs(T - v))
         else:
             closest_indices[i] = 1710 
-    return ge_eff[closest_indices]
+    return gs_eff[closest_indices]
 
